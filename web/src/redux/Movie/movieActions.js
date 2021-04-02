@@ -157,7 +157,6 @@ export const deleteMovie = (id) => {
         dispatch(deleteMovieRequest())
         axios.delete(`http://localhost:4000/movies/${id}`)
             .then(res => {
-                console.log('React data: ', res.data)
                 dispatch(deleteMovieSuccess())
             })
             .catch(e => {

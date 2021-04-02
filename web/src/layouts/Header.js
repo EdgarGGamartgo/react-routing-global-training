@@ -12,9 +12,11 @@ import { Modal, ModalContent } from './../components';
 import MovieDetails from './../components/MovieDetails'
 import { connect } from 'react-redux'
 import { fetchMovieRequest, addMovie, fetchMovies } from './../redux'
+import { useParams, useHistory } from 'react-router-dom'
+import axios from 'axios';
 
 const Header = ({ fetchMoviesRequest, className, showMovieDetails, fetchMovie, createMovie }) =>  {
-
+    const [attrs, setAttrs] = useState({})
     const [showModal, setShowModal] = useState(false)
     const [findMovie, setFindMovie] = useState('')
     const [modalData, setModalData] = useState({
@@ -26,7 +28,7 @@ const Header = ({ fetchMoviesRequest, className, showMovieDetails, fetchMovie, c
         runtime: '',
         genre: '',
     })
-
+    const { idPath } = useParams()
     const toggleModal = () => {
         setShowModal(!showModal)
      };
@@ -45,6 +47,43 @@ const Header = ({ fetchMoviesRequest, className, showMovieDetails, fetchMovie, c
         })
     }, [fetchMovie])
 
+    useEffect(() => {
+        fetchMovie(attrs)
+    }, [attrs])
+
+    useEffect(() => {
+        if (idPath) {
+            (async () => {
+                try {
+                    const mo = await axios.get(`http://localhost:4000/movies/${idPath}`)
+                    const {
+                        title,
+                        genre,
+                        release_date,
+                        poster_path,
+                        overview,
+                        runtime,
+                        vote_average,
+                    } = mo.data
+                    setAttrs({
+                        title,
+                        genre: genre ? genre.join(', ') : '',
+                        releaseDate: release_date,
+                        img: poster_path,
+                        overview,
+                        runtime,
+                        rating: vote_average.toString(),
+                        show: true
+                    })
+                } catch(e) {
+                    console.log(e)
+                }
+            })()
+            
+        }
+        
+    }, [idPath])
+
     const showSearch = useCallback(
         () => {
             fetchMovie({
@@ -55,8 +94,6 @@ const Header = ({ fetchMoviesRequest, className, showMovieDetails, fetchMovie, c
     )
 
     const handleSubmit = (type) => {
-        console.log('handleSubmit from Header.js: ', type)
-        console.log('Kiito: ', modalData)
         createMovie({
             "title": modalData.title,
             "tagline": "none",
@@ -74,7 +111,6 @@ const Header = ({ fetchMoviesRequest, className, showMovieDetails, fetchMovie, c
 
     const sortHandler = (title) => {
         //?search=Fifty%20Shades%20Freed&searchBy=title
-          console.log('KYOKU: ', title)
           fetchMoviesRequest(`?search=${title}&searchBy=title`)
       }
 
@@ -82,7 +118,7 @@ const Header = ({ fetchMoviesRequest, className, showMovieDetails, fetchMovie, c
             <div className={className}>
                 {
                     showMovieDetails 
-                    ? <MovieDetails showSearch={showSearch}/>
+                    ? <MovieDetails {...attrs} showSearch={showSearch}/>
                     : <><Paragraph>netflixroulette</Paragraph>
                         <Button onClick={toggleModal}>+ ADD MOVIE</Button>
                         <ThemeProvider theme={ParagraphTitle}>

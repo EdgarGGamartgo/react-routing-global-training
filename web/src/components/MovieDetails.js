@@ -18,7 +18,6 @@ import { connect } from 'react-redux'
 const MovieDetails = ({ img, title, rating, genre, releaseDate, runtime, overview, showSearch }) => {
     
     const [overView, setOverview] = useState([])
-
     useEffect(() => {
         let ov = []
         const numberOfRows = overview.length / 170
@@ -54,8 +53,12 @@ const MovieDetails = ({ img, title, rating, genre, releaseDate, runtime, overvie
 }
 
 const mapStateToProps = state => {
-    return {
-        ...state.movie
+    if (state.movie.title) {
+        return {
+            ...state.movie
+        }
+    } else {
+        return {}
     }
 }
 

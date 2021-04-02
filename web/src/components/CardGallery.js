@@ -4,11 +4,9 @@ import MovieCard  from './MovieCard'
 import { connect } from 'react-redux'
 import { fetchMovies } from './../redux'
 
-const CardGallery = ({ load, movies,  fetchMoviesRequest}) => {
-
-
+const CardGallery = ({ load, movies,  fetchMoviesRequest }) => {
     useEffect(() => {
-        fetchMoviesRequest()
+        //fetchMoviesRequest()
     }, [fetchMoviesRequest, load])
 
     return (
@@ -43,9 +41,13 @@ const mapDispatchToProps = dispatch => {
 }
 
 const mapStateToProps = state => {
-    return {
-        movies: state.movie.movies,
-        load: state.movie.loading
+    if (state.movie.movies.length !== 0) {
+        return {
+            movies: state.movie.movies,
+            load: state.movie.loading
+        }
+    } else {
+        return {}
     }
 }
 

@@ -31,30 +31,5 @@ const ErrorPage = () => {
 	)
 };
 
-const OtherPage = () => {
-	return (
-		<ErrorBoundary>
-        <Provider store={store}>
-          {/* <HeaderContainer/>
-          <MainContainer/> */}
-          <FooterContainer/>
-        </Provider>
-      </ErrorBoundary>
-	)
-};
 
-function App() {
-  return (
-      <ErrorBoundary>
-        <Provider store={store}>
-          <Error404/>
-          {/* <HeaderContainer/>
-          <MainContainer/> */}
-          <FooterContainer/>
-        </Provider>
-      </ErrorBoundary>
-  );
-}
-
-
-export { HomePage, ErrorPage, OtherPage };
+export { HomePage, ErrorPage };

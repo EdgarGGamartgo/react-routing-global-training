@@ -13,6 +13,7 @@ import { DotsVerticalRounded } from '@styled-icons/boxicons-regular'
 import { Modal, ModalContent } from './../components';
 import { connect } from 'react-redux'
 import { fetchMovieRequest, editMovie, deleteMovie } from './../redux'
+import { useHistory  } from 'react-router-dom'
 
 const MovieCard = ({ deleteMovieRequest, editMovieRequest, img, title, genre, releaseDate, rating, imgAlt, url, movieId, overview, runtime, fetchMovie }) => {
 
@@ -29,6 +30,10 @@ const MovieCard = ({ deleteMovieRequest, editMovieRequest, img, title, genre, re
         runtime,
         genre,
     })
+
+    const history = useHistory();
+    const handleNav = () => history.push(`/film/${movieId}`);
+
     const showToolTip = () => {
         setDisplayToolTip(true)
     }
@@ -61,6 +66,7 @@ const MovieCard = ({ deleteMovieRequest, editMovieRequest, img, title, genre, re
 
     const showDetails = useCallback(
         () => {
+            handleNav()
             fetchMovie({
                 title,
                 genre,
@@ -76,8 +82,6 @@ const MovieCard = ({ deleteMovieRequest, editMovieRequest, img, title, genre, re
     )
 
     const handleSubmit = (type) => {
-        console.log('handleSubmit from MovieCardSSS.js: ', type)
-        console.log('handleSubmit from MovieCard.js: ', modalData)
         if (type === 'EDIT') {
             editMovieRequest({
                 "title": modalData.title,

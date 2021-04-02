@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-import { HomePage, ErrorPage, OtherPage } from './App';
+import { HomePage, ErrorPage } from './App';
 import reportWebVitals from './reportWebVitals';
 import { BrowserRouter as Router, Switch, Route, Redirect } from 'react-router-dom';
 
@@ -10,7 +10,7 @@ ReactDOM.render(
        <Switch>
 		      <Route exact path="/" component={HomePage}/>
 		      <Route exact path="/error" component={ErrorPage}/>
-          <Route exact path="/other" component={OtherPage}/>
+          <Route  exact path="/film/:idPath" component={HomePage} />
           <Redirect to="/error" />
 	    </Switch>
     </Router>,
