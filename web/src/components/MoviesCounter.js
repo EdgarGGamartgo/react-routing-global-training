@@ -3,11 +3,28 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux'
 import { fetchMovieRequest, addMovie, fetchMovies } from './../redux'
 
+const noMoviesFound = {
+    color: '#FFFFFF',
+    position: 'absolute',
+    top: '50%',
+    left: '50%',
+    transform: 'translateX(-50%) translateY(-50%)',
+    marginTop: '20vh'
+}
+
 const MoviesCounter = ({ className, movies }) => {
     return (
-        <div className={className}>
-            {movies.length} movies found
-        </div>
+        <>
+        {
+            movies.length !== 0 
+            ? <div className={className}>
+                {movies.length} movies found
+              </div> 
+            : <div style={noMoviesFound}>
+                NO MOVIES FOUND
+              </div>
+        }
+        </>
     )
 }
 

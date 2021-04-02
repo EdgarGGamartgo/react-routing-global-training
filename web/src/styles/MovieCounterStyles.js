@@ -6,5 +6,4 @@ export const MovieCounterStyles = styled(MoviesCounter)`
     margin-top: 30px;
     margin-bottom: 30px;
     margin-left: 60px;
-    
 `
